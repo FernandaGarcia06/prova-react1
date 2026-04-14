@@ -1,15 +1,14 @@
-/* RESET */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* BASE */
 html, body {
   height: 100%;
   width: 100%;
-  overflow-x: hidden; /* evita barra lateral */
+  overflow-x: hidden;
   font-family: Arial, sans-serif;
   background-color: #f5f5f5;
 }
@@ -20,7 +19,6 @@ h2 {
   color: #1e90ff;
 }
 
-/* ROOT */
 #root {
   width: 100%;
   min-height: 100vh;
@@ -30,10 +28,9 @@ h2 {
   flex-direction: column;
 }
 
-/* HEADER (CORRIGIDO) */
 header {
-  width: 100vw; /* pega a tela inteira */
-  margin-left: calc(-50vw + 50%); /* remove limite lateral */
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
   background-color: #1e90ff;
   color: white;
   padding: 20px;
@@ -42,7 +39,6 @@ header {
   font-weight: bold;
 }
 
-/* MAIN */
 main {
   flex: 1;
   display: flex;
@@ -58,7 +54,6 @@ main img {
   height: auto;
 }
 
-/* FORM */
 form {
   background-color: white;
   padding: 20px;
@@ -71,15 +66,14 @@ form {
 }
 
 input {
-  background-color: #e4e1e1; /* cinza claro */
+  background-color: #e4e1e1;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 100%;
-  color: #000; /* texto preto */
+  color: #000;
 }
 
-/* BOTÃO */
 button {
   padding: 10px;
   background-color: #1e90ff;
@@ -95,13 +89,11 @@ button:hover {
   background-color: #187bcd;
 }
 
-/* LISTA */
 ul {
   list-style: none;
   width: 320px;
 }
 
-/* ITEM */
 li {
   background-color: white;
   margin-bottom: 10px;
@@ -111,7 +103,6 @@ li {
   text-align: center;
 }
 
-/* FOOTER (CORRIGIDO) */
 footer {
   width: 100vw;
   margin-left: calc(-50vw + 50%);
