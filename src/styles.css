@@ -111,3 +111,32 @@ footer {
   text-align: center;
   padding: 15px;
 }
+
+/* 🔐 Auth container */
+.auth-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+/* 🏷️ Título */
+.auth-title {
+  font-size: 24px;
+  color: #1e90ff;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+/* 🔁 link embaixo */
+.auth-switch {
+  color: #1e90ff;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+}
