@@ -112,7 +112,6 @@ footer {
   padding: 15px;
 }
 
-/* 🔐 Auth container */
 .auth-container {
   background-color: white;
   padding: 20px;
@@ -125,7 +124,6 @@ footer {
   align-items: center;
 }
 
-/* 🏷️ Título */
 .auth-title {
   font-size: 24px;
   color: #1e90ff;
@@ -133,7 +131,6 @@ footer {
   font-weight: bold;
 }
 
-/* 🔁 link embaixo */
 .auth-switch {
   color: #1e90ff;
   cursor: pointer;

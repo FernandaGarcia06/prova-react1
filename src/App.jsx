@@ -22,7 +22,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [products, setProducts] = useState([]);
 
-  // 🔐 auth
+  // auth
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (usuario) => {
       setUser(usuario || null);
@@ -31,7 +31,7 @@ function App() {
     return () => unsub();
   }, []);
 
-  // 📦 firestore realtime
+  // firestore realtime
   useEffect(() => {
     if (!user) {
       setProducts([]);
@@ -55,7 +55,7 @@ function App() {
     return () => unsub();
   }, [user]);
 
-  // ➕ add product
+  // add product
   const addProduct = async (product) => {
     if (!user) return alert("Erro: faça login");
 

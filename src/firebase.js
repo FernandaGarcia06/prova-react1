@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-// Configuração (a sua já está certa)
+// Configuração
 const firebaseConfig = {
   apiKey: "AIzaSyCNq0c0THiF8f3VPHmHQr6ZSMzcTSVax58",
   authDomain: "provapraticafernanda.firebaseapp.com",
@@ -16,6 +16,5 @@ const firebaseConfig = {
 // Inicializa
 const app = initializeApp(firebaseConfig);
 
-// 🔥 ESSAS DUAS LINHAS SÃO O QUE FALTAVA
 export const auth = getAuth(app);
 export const db = getFirestore(app);

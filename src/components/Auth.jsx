@@ -13,7 +13,7 @@ const Auth = () => {
   const [user, setUser] = useState(null);
   const [isLogin, setIsLogin] = useState(false);
 
-  // 🔐 auth listener
+  // auth listener
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (usuario) => {
       setUser(usuario || null);
@@ -22,7 +22,6 @@ const Auth = () => {
     return () => unsub();
   }, []);
 
-  // 🧼 limpa inputs quando desloga
   useEffect(() => {
     if (!user) {
       setEmail("");
