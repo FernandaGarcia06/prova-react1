@@ -1,40 +1,40 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { auth } from "../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  onAuthStateChanged
+  sendEmailVerification,
 } from "firebase/auth";
 
-const Auth = () => {
+const Auth = ({ user, setUser }) => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [user, setUser] = useState(null);
   const [isLogin, setIsLogin] = useState(false);
-
-  // auth listener
-  useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (usuario) => {
-      setUser(usuario || null);
-    });
-
-    return () => unsub();
-  }, []);
-
-  useEffect(() => {
-    if (!user) {
-      setEmail("");
-      setSenha("");
-    }
-  }, [user]);
+  const [cadastroFeito, setCadastroFeito] = useState(false);
 
   const cadastrar = async () => {
     if (!email || !senha) {
       return alert("Erro: preencha tudo");
     }
 
-    await createUserWithEmailAndPassword(auth, email, senha);
+    try {
+      const credencial = await createUserWithEmailAndPassword(auth, email, senha);
+      await sendEmailVerification(credencial.user);
+      await signOut(auth);
+      setCadastroFeito(true);
+    } catch (err) {
+      if (err.code === "auth/email-already-in-use") {
+        alert("Erro: este email já está cadastrado");
+      } else if (err.code === "auth/invalid-email") {
+        alert("Erro: email inválido");
+      } else if (err.code === "auth/weak-password") {
+        alert("Erro: a senha deve ter pelo menos 6 caracteres");
+      } else {
+        console.log(err.code);
+        alert("Erro ao cadastrar");
+      }
+    }
   };
 
   const login = async () => {
@@ -42,11 +42,32 @@ const Auth = () => {
       return alert("Erro: preencha tudo");
     }
 
-    await signInWithEmailAndPassword(auth, email, senha);
+    try {
+      const credencial = await signInWithEmailAndPassword(auth, email, senha);
+
+      if (!credencial.user.emailVerified) {
+        await signOut(auth);
+        return alert("Você precisa verificar seu email antes de entrar. Verifique sua caixa de entrada.");
+      }
+
+      setUser(credencial.user);
+    } catch (err) {
+      if (err.code === "auth/invalid-credential") {
+        alert("Email ou senha incorretos");
+      } else if (err.code === "auth/invalid-email") {
+        alert("Erro: email inválido");
+      } else if (err.code === "auth/too-many-requests") {
+        alert("Muitas tentativas. Tente novamente mais tarde.");
+      } else {
+        console.log(err.code);
+        alert("Erro ao logar");
+      }
+    }
   };
 
   const logout = async () => {
     await signOut(auth);
+    setUser(null);
   };
 
   return (
@@ -57,6 +78,27 @@ const Auth = () => {
           <p>{user.email}</p>
           <button onClick={logout}>Logout</button>
         </>
+      ) : cadastroFeito ? (
+        <div className="auth-verify-box">
+          <span className="auth-verify-icon">📧</span>
+          <h2 className="auth-title">Verifique seu email!</h2>
+          <p className="auth-verify-text">
+            Enviamos um link de verificação para <strong>{email}</strong>.
+            <br />
+            Acesse sua caixa de entrada e clique no link para ativar sua conta.
+          </p>
+          <p className="auth-verify-hint">
+            Não encontrou? Verifique a pasta de spam.
+          </p>
+          <button
+            onClick={() => {
+              setCadastroFeito(false);
+              setIsLogin(true);
+            }}
+          >
+            Ir para o Login
+          </button>
+        </div>
       ) : (
         <>
           <h2 className="auth-title">
