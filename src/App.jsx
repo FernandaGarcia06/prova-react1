@@ -8,7 +8,15 @@ import ecommerceImg from "./assets/Ecommerce.png";
 import "./styles.css";
 
 import { db, auth } from "./firebase";
-import { collection, addDoc, query, where, onSnapshot } from "firebase/firestore";
+
+import {
+  collection,
+  addDoc,
+  query,
+  where,
+  onSnapshot,
+} from "firebase/firestore";
+
 import { onAuthStateChanged, signOut } from "firebase/auth";
 
 function App() {
@@ -37,16 +45,15 @@ function App() {
     }
 
     const q = query(
-      collection(db, "produtos"),
+      collection(db, "Personagens"),
       where("userId", "==", user.uid)
     );
 
     const unsub = onSnapshot(q, (snapshot) => {
       const lista = snapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data()
+        ...doc.data(),
       }));
-
       setProducts(lista);
     });
 
@@ -54,12 +61,17 @@ function App() {
   }, [user]);
 
   const addProduct = async (product) => {
-    if (!user) return alert("Erro: faça login");
+    if (!user) {
+      return alert("Erro: faça login");
+    }
 
-    await addDoc(collection(db, "produtos"), {
-      name: product.name,
-      price: product.price,
-      userId: user.uid
+    // Salva os dados no Firestore, incluindo o nome do autor (email)
+    await addDoc(collection(db, "Personagens"), {
+      nome: product.name,
+      imageUrl: product.imageUrl || "",
+      dataCadastro: new Date(),
+      userId: user.uid,
+      autor: user.email || "Anônimo",      // ← NOME DO AUTOR
     });
   };
 
@@ -73,8 +85,11 @@ function App() {
         {user && (
           <>
             <img src={ecommerceImg} alt="ecommerce" />
+
             <ProductForm addProduct={addProduct} />
-            <h2>Seus Produtos</h2>
+
+            <h2>Seus Personagens</h2>
+
             <ProductList products={products} />
           </>
         )}
